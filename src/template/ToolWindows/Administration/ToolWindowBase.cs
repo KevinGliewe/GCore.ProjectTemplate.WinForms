@@ -7,20 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GCore.ProjectTemplate.WinForms.Handler.Attributes;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace GCore.ProjectTemplate.WinForms.ToolWindows.Administration
 {
     public partial class ToolWindowBase : DockContent, IToolWindowBase
     {
+        public LifetimeAttribute.Lifetime Lifetime { get; private set; }
+
         public ToolWindowBase()
         {
             AutoScaleMode = AutoScaleMode.Dpi;
+            Lifetime = LifetimeAttribute.GetLifetime(GetType());
 
             FormClosing += (sender, args) =>
             {
-                args.Cancel = true;
-                base.Hide();
+                if (Lifetime == LifetimeAttribute.Lifetime.Singleton)
+                {
+                    args.Cancel = true;
+                    base.Hide();
+                }
             };
         }
 

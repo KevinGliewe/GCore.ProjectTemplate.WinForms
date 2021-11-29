@@ -1,9 +1,30 @@
 ﻿using Autofac;
+using GCore.ProjectTemplate.WinForms.Handler.Attributes;
 
 namespace GCore.ProjectTemplate.WinForms.Extensions;
 
 public static class ContainerBuilderExtensions
 {
+    public static ContainerBuilder Add(this ContainerBuilder self, Type service, Type implementation, LifetimeAttribute.Lifetime lifetime)
+    {
+        switch (lifetime)
+        {
+            case LifetimeAttribute.Lifetime.Singleton:
+                self.AddSingleton(service, implementation);
+                break;
+            case LifetimeAttribute.Lifetime.Transient:
+                self.AddTransient(service, implementation);
+                break;
+            case LifetimeAttribute.Lifetime.Scoped:
+                self.AddScoped(service, implementation);
+                break;
+            case LifetimeAttribute.Lifetime.Default:
+                self.Add(service, implementation, LifetimeAttribute.DEFAULT);
+                break;
+        }
+        return self;
+    }
+
     public static ContainerBuilder AddSingleton<T>(this ContainerBuilder self, T instance) where T : class
     {
         self.RegisterInstance(instance).As<T>().SingleInstance();

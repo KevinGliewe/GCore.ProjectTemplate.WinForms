@@ -66,8 +66,8 @@ public class HandlerAttribute : Attribute
                     case LifetimeAttribute.Lifetime.Scoped:
                         builder.AddScoped(ia.T, implementationType);
                         break;
-                    default:
-                        builder.AddSingleton(ia.T, implementationType);
+                    case LifetimeAttribute.Lifetime.Default:
+                        builder.Add(ia.T, implementationType, lifetime);
                         break;
                 }
 

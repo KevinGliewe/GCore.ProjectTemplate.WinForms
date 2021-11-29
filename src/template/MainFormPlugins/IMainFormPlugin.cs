@@ -19,7 +19,8 @@ public interface IMainFormPlugin
             foreach (var pluginType in ass.GetTypes().Where(t =>
                          !t.IsInterface && !t.IsAbstract && t.IsAssignableTo(typeof(IMainFormPlugin))))
             {
-                builder.AddSingleton(pluginType, pluginType);
+                var lifetime = LifetimeAttribute.GetLifetime(pluginType);
+                builder.Add(pluginType, pluginType, lifetime);
             }
         }
     }

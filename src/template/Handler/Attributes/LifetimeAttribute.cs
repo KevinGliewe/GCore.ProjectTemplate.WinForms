@@ -5,6 +5,8 @@ namespace GCore.ProjectTemplate.WinForms.Handler.Attributes;
 [AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Interface, Inherited = true, AllowMultiple = false)]
 public class LifetimeAttribute : Attribute
 {
+    public static readonly Lifetime DEFAULT = Lifetime.Singleton;
+
     public enum Lifetime
     {
         Scoped,
@@ -21,5 +23,5 @@ public class LifetimeAttribute : Attribute
     }
 
     public static Lifetime GetLifetime(Type type) =>
-        type.GetCustomAttribute<LifetimeAttribute>()?.Attribute ?? Lifetime.Default;
+        type.GetCustomAttribute<LifetimeAttribute>()?.Attribute ?? DEFAULT;
 }
